@@ -1,4 +1,4 @@
-# Development of molecular markers for the W chromosome in the blue butterfly Polyommatus icarus
+# Development of molecular markers for the W chromosome in the blue butterfly *Polyommatus icarus*
 
 Sekvenací genomové DNA na platformě Oxford Nanopore byla získána data ve formátu FAST5. Ta byla zpracována pomocí skriptu „Basecalling.sh“ a získaný výstup byl použit jako vstup pro skript „NanoFilt_NanoPlot.sh“, který umožňuje filtraci dat na minimální délku sekvencí 5000 bp a 10000 bp a následně vyhodnocuje základní statistiky pomocí nástroje NanoPlot. Soubory s filtrovanými daty, vytvořené tímto skriptem, byly použity jako vstupy pro skript „Canu.sh“ pro opravu sekvencí sami sebou. Vytvořený výstup byl použit jako vstup pro skript „Flye.sh“ pro tvorbu genového assembly. Byla tak vytvořena dvě genomová assembly, která byla dále použita jako vstupní data pro skript „PurgeDups.sh“ pro odstranění duplikací. Tento skript tedy vytvoří další dvě genomová assembly. Všechna vytvořená assembly byla zkontrolována na kvalitu pomocí skriptů „BUSCO.sh“ a „Quast.sh“.
 
