@@ -5,22 +5,36 @@
 
 trap 'clean_scratch' TERM EXIT
 
-DATADIR="/storage/brno2/home/hrubam/Vysledky/Trimmed_2"
-
-cp $DATADIR/P_icarus*fastq $SCRATCHDIR || exit 1
+DATADIR="/path/to/FASTQC_Trimmomatic_Trimgalore_Output/"
+# copy own data into scratch directory
+cp $DATADIR/*fastq $SCRATCHDIR || exit 1
 cp -r $DATADIR/KmerGO_for_linux_x64_cmd $SCRATCHDIR || exit 1
-cp $DATADIR/kmerGo_trait_Pic.csv $SCRATCHDIR || exit 1
+# kmerGo_trait.csv = first column: individual id, second column: sex (F/M)
+cp $DATADIR/kmerGo_trait.csv $SCRATCHDIR || exit 1
 cd $SCRATCHDIR || exit 2
 
+#prepare kmerGo
 mkdir input;
 mv *.fastq input;
 
 chmod 755 KmerGO_for_linux_x64_cmd/KmerGO_for_cmd;
 chmod 755 KmerGO_for_linux_x64_cmd/bin/*;
 
-mkdir kmerGO_55mer_P_icarus;
-cd kmerGO_55mer_P_icarus;
-../KmerGO_for_linux_x64_cmd/KmerGO_for_cmd -m 0 -k 55 -n 19 -ci 0  -i ../input -t ../kmerGo_trait_Pic.csv;
+#running KmerGO for 21-mers
+mkdir kmerGO_21-mer;
+cd kmerGO_21-mer;
+../KmerGO_for_linux_x64_cmd/KmerGO_for_cmd -m 0 -k 21 -n 19 -ci 0  -i ../input -t ../kmerGo_trait.csv;
 cd ../
 
-cp -r kmerGO_55mer_P_icarus $DATADIR/Pic_kmers || export CLEAN_SCRATCH=false
+# copy resources from scratch directory back on disk field, if not successful, scratch is not deleted
+cp -r kmerGO_21-mer /path/to/KmerGO_Output/ || export CLEAN_SCRATCH=false
+
+
+
+#running KmerGO for 55-mers
+mkdir kmerGO_55-mer;
+cd kmerGO_55-mer;
+../KmerGO_for_linux_x64_cmd/KmerGO_for_cmd -m 0 -k 55 -n 19 -ci 0  -i ../input -t ../kmerGo_trait.csv;
+cd ../
+
+cp -r kmerGO_55-mer /path/to/KmerGO_Output/ || export CLEAN_SCRATCH=false

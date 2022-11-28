@@ -7,14 +7,14 @@
 
 trap 'clean_scratch' TERM EXIT
 cd $SCRATCHDIR || exit 1
-cp -r /storage/brno2/home/hrubam/Minion/fast5_for_basecalling/ $SCRATCHDIR || exit 2
+cp -r /path/to/folder/with/Minion_output/fast5_for_basecalling/ $SCRATCHDIR || exit 2
 
 
 module add guppy-4.4.1
-mkdir Basecalling_Vysledky
+mkdir Basecalling_Output
 guppy_basecaller \
  -i ./fast5_for_basecalling/ \
- -s ./Basecalling_Vysledky/ \
+ -s ./Basecalling_Output/ \
  -c dna_r10.3_450bps_hac.cfg \
  --compress_fastq \
  -q 0 \
@@ -28,4 +28,4 @@ guppy_basecaller \
  --chunks_per_caller 1000 \
  --gpu_runners_per_device 4
 
-cp -r $SCRATCHDIR/Basecalling_Vysledky/* /storage/brno2/home/hrubam/Vysledky/Basecalling_Vysledky/ || exit 3 && export CLEAN_SCRATCH=false
+cp -r $SCRATCHDIR/Basecalling_Output/* /path/to/Basecalling_Output/ || exit 3 && export CLEAN_SCRATCH=false

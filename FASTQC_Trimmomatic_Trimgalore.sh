@@ -4,17 +4,17 @@
 
 trap 'clean_scratch' TERM EXIT
 
-DATADIR="/storage/brno2/home/hrubam/Vysledky"
+DATADIR="/path/to/all_files.fastq.gz"
 
-cp $DATADIR/Slouceno/*.fastq.gz $SCRATCHDIR || exit 1
-cp $DATADIR/Truseq_PE.fasta $SCRATCHDIR || exit 2
+cp $DATADIR $SCRATCHDIR || exit 1
+cp $path/to/file_with_Illumina_adaptors.fasta $SCRATCHDIR || exit 2
 cd $SCRATCHDIR || exit 3
 
 module add fastQC-0.11.5
 module add trimmomatic-0.36
 module add trim_galore-0.6.2
 
-#odstranění polyG kontaminace
+#removing polyG contamination
 for c in ./*.fastq.gz;
 do
 cutadapt --nextseq-trim=20 -o ${c/%.fastq.gz/_cut.fastq.gz} $c;
@@ -26,7 +26,7 @@ do
 java -jar /software/trimmomatic/0.36/dist/jar/trimmomatic-0.36.jar PE -threads 9 -phred33 \
         $t ${t/%F_cut.fastq.gz/R_cut.fastq.gz} \
         ${t/%F_cut.fastq.gz/1_paired.fastq} ${t/%F_cut.fastq.gz/1_unpaired.fastq} ${t/%F_cut.fastq.gz/2_paired.fastq} ${t/%F_cut.fastq.gz/2_unpaired.fastq} \
-        ILLUMINACLIP:./Truseq_PE.fasta:2:30:10 CROP:145 HEADCROP:5 MINLEN:50;
+        ILLUMINACLIP:./file_with_Illumina_adaptors.fasta:2:30:10 CROP:145 HEADCROP:5 MINLEN:50;
 done
 
 rm *fastq.gz;
@@ -37,4 +37,4 @@ do
 fastqc $f
 done
 
-cp -r $SCRATCHDIR/*  $DATADIR/Trimmed_2 || export CLEAN_SCRATCH=false
+cp -r $SCRATCHDIR/*  /path/to/FASTQC_Trimmomatic_Trimgalore_Output/ || export CLEAN_SCRATCH=false

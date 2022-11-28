@@ -4,9 +4,10 @@
 
 trap 'clean_scratch' TERM EXIT
 
-DATADIR="/storage/brno2/home/hrubam/Vysledky/Assembly_10000"
+DATADIR="/path/to/assembly_file"
 
-cp ${DATADIR}/assembly.fasta $SCRATCHDIR || exit 1
+#instead of file.fa use assembly.fasta or purged.fa (depending on which assembly you want to check)
+cp ${DATADIR}/file.fa $SCRATCHDIR || exit 1
 cd $SCRATCHDIR || exit 2
 
 module add conda-modules-py37
@@ -20,7 +21,7 @@ module add augustus-3.3.1
 mkdir $SCRATCHDIR/augustus_configs
 cp -r $AUGUSTUS_CONFIG_PATH/* $SCRATCHDIR/augustus_configs/
 export AUGUSTUS_CONFIG_PATH=$SCRATCHDIR/augustus_configs
-busco -c 9  -i *.fasta -o BUSCO_5_Assembly_10000.out -l lepidoptera -m genome --augustus
-busco -c 9  -i *.fasta -o BUSCO_5_Assembly_10000.out -l insecta -m genome --augustus
+busco -c 9  -i *.fasta -o BUSCO_5_file.out -l lepidoptera -m genome --augustus
+busco -c 9  -i *.fasta -o BUSCO_5_file.out -l insecta -m genome --augustus
 
-cp -r BUSCO_5_Assembly_10000.out $DATADIR || export CLEAN_SCRATCH=false
+cp -r BUSCO_5_file.out /path/to/BUSCO_Output/ || export CLEAN_SCRATCH=false
