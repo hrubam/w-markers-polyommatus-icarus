@@ -16,7 +16,7 @@ module add flye-2.8
 unpigz -p 29 file_5000.correctedReads.fasta.gz
 
 mkdir Assembly_5000;
-flye --nano-raw file_5000.correctedReads.fasta --out-dir Assembly_5000 --genome-size 700m  --meta -t 29 --min-overlap 5000
+flye --nano-raw file_5000.correctedReads.fasta --out-dir Assembly_5000 --genome-size 700m  --meta -t 29 
 
 
 
