@@ -25,5 +25,4 @@ cut -f1-2 ASSEMBLY_FILE.fa.fai > contig_size;
 bedtools makewindows -g contig_size -w 2000 > GENOME_SIZE_BED;
 bedtools coverage -a GENOME_SIZE_BED -b OUTPUT.sorted.bam > OUTPUT.bed;
 
-cp OUTPUT.sorted.bam $DATADIR || export CLEAN_SCRATCH=false
 cp OUTPUT.bed $DATADIR || export CLEAN_SCRATCH=false
